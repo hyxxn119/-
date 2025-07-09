@@ -27,7 +27,7 @@ with st.form("user_input"):
     ])
 
     experience = st.selectbox("AI 사용 경험은 어느 정도인가요?", [
-        "초보", "중", "고"
+        "초보", "일반인", "전문가"
     ])
 
     budget = st.radio("예산은 어느 정도인가요?", ["무료", "유료 OK"])
