@@ -1,55 +1,101 @@
 import streamlit as st
 
-# 추천 로직 함수
-def recommend_model(purpose, experience, budget, interface):
-    if purpose == "문서 요약" and interface == "웹 기반":
-        return "Notion AI"
-    elif purpose == "코딩 보조" and experience in ["중", "고"]:
-        return "ChatGPT (Pro or Plus)"
-    elif purpose == "질문 검색" and budget == "무료":
-        return "Perplexity AI"
-    elif purpose == "업무 자동화" and experience == "초보":
-        return "ChatGPT 또는 Notion AI"
-    else:
-        return "Claude 또는 기타 LLM 기반 도구"
+# ✅ 모델 정보 (내장된 JSON 데이터)
+model_data = [
+    {
+        "name": "ChatGPT",
+        "developer": "OpenAI",
+        "purpose": ["코딩 보조", "문서 생성", "Q&A"],
+        "experience": ["중", "고"],
+        "budget": ["무료", "유료 OK"],
+        "interface": ["웹 기반", "API 기반"],
+        "description": "전천후 텍스트 생성 도구로 코드, 작문, 요약 등 다양한 작업에 적합"
+    },
+    {
+        "name": "Claude",
+        "developer": "Anthropic",
+        "purpose": ["문서 요약", "대화"],
+        "experience": ["중", "고"],
+        "budget": ["무료", "유료 OK"],
+        "interface": ["웹 기반"],
+        "description": "긴 문서 요약에 강점이 있는 자연어 처리 모델"
+    },
+    {
+        "name": "Perplexity AI",
+        "developer": "Perplexity",
+        "purpose": ["질문 검색", "정보 탐색"],
+        "experience": ["초보", "중"],
+        "budget": ["무료"],
+        "interface": ["웹 기반"],
+        "description": "검색과 AI 답변을 결합한 빠른 정보 탐색 도구"
+    },
+    {
+        "name": "Notion AI",
+        "developer": "Notion",
+        "purpose": ["문서 요약", "정리", "노트 작성"],
+        "experience": ["초보", "중"],
+        "budget": ["유료 OK"],
+        "interface": ["웹 기반", "앱 기반"],
+        "description": "Notion 사용자를 위한 문서 작성 및 정리 보조 도구"
+    },
+    {
+        "name": "Copilot",
+        "developer": "GitHub",
+        "purpose": ["코딩 보조"],
+        "experience": ["중", "고"],
+        "budget": ["유료 OK"],
+        "interface": ["IDE 플러그인"],
+        "description": "개발을 위한 실시간 코드 추천 및 자동 완성 도구"
+    }
+]
 
-# 스트림릿 설정
-st.set_page_config(page_title="AI 모델 추천기", layout="centered")
+# ✅ Streamlit 설정
+st.set_page_config(page_title="AI 모델 추천기", layout="wide")
+st.title("🤖 상황 맞춤 AI 모델 추천기")
+st.markdown("당신의 목적과 조건에 맞는 AI 도구를 추천해드립니다!")
 
-st.title("🧠 나에게 딱 맞는 AI 추천기")
-st.markdown("간단한 선택만으로 당신에게 적합한 인공지능 도구를 추천해드립니다!")
-
+# ✅ 사용자 입력 받기
 with st.form("user_input"):
-    st.subheader("1️⃣ 당신의 상황을 알려주세요")
+    st.subheader("📝 당신의 상황을 알려주세요")
 
-    purpose = st.selectbox("사용 목적은 무엇인가요?", [
-        "문서 요약", "코딩 보조", "질문 검색", "업무 자동화", "기타"
+    purpose = st.multiselect("✅ 사용 목적을 선택하세요", [
+        "문서 요약", "코딩 보조", "질문 검색", "정리", "정보 탐색", "대화", "노트 작성", "문서 생성", "Q&A"
     ])
 
-    experience = st.selectbox("AI 사용 경험은 어느 정도인가요?", [
-        "초보", "일반인", "전문가"
+    experience = st.radio("🧠 AI 사용 경험은?", ["초보", "중", "고"])
+    budget = st.radio("💰 예산은?", ["무료", "유료 OK"])
+    interface = st.multiselect("💻 원하는 인터페이스", [
+        "웹 기반", "앱 기반", "API 기반", "IDE 플러그인"
     ])
 
-    budget = st.radio("예산은 어느 정도인가요?", ["무료", "유료 OK"])
+    submitted = st.form_submit_button("🔍 AI 추천받기")
 
-    interface = st.selectbox("어떤 방식이 더 편한가요?", [
-        "웹 기반", "앱 기반", "API 기반"
-    ])
+# ✅ 추천 로직
+def filter_models(data, purpose, experience, budget, interface):
+    results = []
+    for model in data:
+        if any(p in model["purpose"] for p in purpose) and \
+           experience in model["experience"] and \
+           budget in model["budget"] and \
+           any(i in model["interface"] for i in interface):
+            results.append(model)
+    return results
 
-    submitted = st.form_submit_button("AI 추천받기!")
-
-# 결과 출력
+# ✅ 결과 출력
 if submitted:
-    result = recommend_model(purpose, experience, budget, interface)
-    st.success(f"✅ 추천 모델: **{result}**")
-    st.markdown(f"이유: 당신의 상황({purpose}, {experience}, {budget}, {interface})에 적합한 선택입니다.")
+    st.subheader("📌 추천 결과")
 
-    st.markdown("---")
-    st.subheader("ℹ️ 자주 추천되는 모델 설명")
-    with st.expander("설명 펼치기"):
-        st.markdown("""
-        - **ChatGPT**: 전천후 텍스트 생성 도구, 코드/문서/글쓰기 모두 가능  
-        - **Notion AI**: 문서 기반 AI, 노션 사용자에게 최적  
-        - **Perplexity AI**: 실시간 검색 기반, 정보 탐색에 유리  
-        - **Claude**: 장문 요약 및 자연스러운 대화에 강점  
-        """)
+    matched = filter_models(model_data, purpose, experience, budget, interface)
+
+    if not matched:
+        st.warning("😢 조건에 맞는 모델을 찾을 수 없습니다. 선택을 더 넓혀보세요.")
+    else:
+        for model in matched:
+            with st.container():
+                st.markdown(f"### 🧠 {model['name']} ({model['developer']})")
+                st.markdown(f"- 🔍 **설명:** {model['description']}")
+                st.markdown(f"- 🎯 **주요 목적:** {', '.join(model['purpose'])}")
+                st.markdown(f"- 🧠 **사용 경험 대상:** {', '.join(model['experience'])}")
+                st.markdown(f"- 💰 **비용:** {', '.join(model['budget'])}")
+                st.markdown(f"- 💻 **인터페이스:** {', '.join(model['interface'])}")
+                st.markdown("---")
