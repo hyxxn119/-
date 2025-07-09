@@ -1,6 +1,19 @@
 import streamlit as st
-from recommender import recommend_model
 
+# 추천 로직 함수
+def recommend_model(purpose, experience, budget, interface):
+    if purpose == "문서 요약" and interface == "웹 기반":
+        return "Notion AI"
+    elif purpose == "코딩 보조" and experience in ["중", "고"]:
+        return "ChatGPT (Pro or Plus)"
+    elif purpose == "질문 검색" and budget == "무료":
+        return "Perplexity AI"
+    elif purpose == "업무 자동화" and experience == "초보":
+        return "ChatGPT 또는 Notion AI"
+    else:
+        return "Claude 또는 기타 LLM 기반 도구"
+
+# 스트림릿 설정
 st.set_page_config(page_title="AI 모델 추천기", layout="centered")
 
 st.title("🧠 나에게 딱 맞는 AI 추천기")
@@ -25,18 +38,18 @@ with st.form("user_input"):
 
     submitted = st.form_submit_button("AI 추천받기!")
 
+# 결과 출력
 if submitted:
     result = recommend_model(purpose, experience, budget, interface)
     st.success(f"✅ 추천 모델: **{result}**")
     st.markdown(f"이유: 당신의 상황({purpose}, {experience}, {budget}, {interface})에 적합한 선택입니다.")
 
     st.markdown("---")
-    st.subheader("ℹ️ 추가 설명이 필요한가요?")
-    with st.expander("자주 추천되는 모델 설명 보기"):
+    st.subheader("ℹ️ 자주 추천되는 모델 설명")
+    with st.expander("설명 펼치기"):
         st.markdown("""
-        - **ChatGPT**: 전천후 텍스트 생성 도구, 코드/문서/글쓰기 모두 가능
-        - **Notion AI**: 문서 기반 AI, 노션 사용자에게 최적
-        - **Perplexity AI**: 실시간 검색 기반, 정보 탐색에 유리
-        - **Claude**: 장문 요약 및 자연스러운 대화에 강점
+        - **ChatGPT**: 전천후 텍스트 생성 도구, 코드/문서/글쓰기 모두 가능  
+        - **Notion AI**: 문서 기반 AI, 노션 사용자에게 최적  
+        - **Perplexity AI**: 실시간 검색 기반, 정보 탐색에 유리  
+        - **Claude**: 장문 요약 및 자연스러운 대화에 강점  
         """)
-
