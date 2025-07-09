@@ -1,146 +1,97 @@
 import streamlit as st
 
 model_data = [
-    {"name": "ChatGPT", "developer": "OpenAI", "purpose": ["대화", "코딩 보조", "문서 생성", "Q&A", "요약"],
-     "experience": ["초보", "일반인", "전문가"], "budget": ["무료", "유료 OK"], "languages": ["한국어", "영어", "다국어"],
-     "description": "범용 대화형 AI로 다양한 자연어 처리 작업에 적합합니다."},
-    {"name": "GPT-4", "developer": "OpenAI", "purpose": ["고급 대화", "연구", "창의적 글쓰기", "복잡한 문제 해결"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["한국어", "영어", "다국어"],
-     "description": "최신 대형 언어 모델, 다양한 고급 작업 지원."},
-    {"name": "Claude", "developer": "Anthropic", "purpose": ["문서 요약", "대화", "데이터 분석"],
-     "experience": ["일반인", "전문가"], "budget": ["무료", "유료 OK"], "languages": ["영어"],
-     "description": "안전성과 신뢰성에 초점을 맞춘 AI."},
-    {"name": "Bard", "developer": "Google", "purpose": ["정보 검색", "대화", "콘텐츠 생성"],
-     "experience": ["초보", "일반인", "전문가"], "budget": ["무료"], "languages": ["한국어", "영어"],
-     "description": "Google 검색과 연계된 AI 대화 서비스."},
-    {"name": "Notion AI", "developer": "Notion", "purpose": ["노트 작성", "문서 요약", "정리"],
-     "experience": ["초보", "일반인"], "budget": ["유료 OK"], "languages": ["영어", "한국어"],
-     "description": "생산성 도구에 최적화된 AI."},
-    {"name": "Midjourney", "developer": "Midjourney Inc.", "purpose": ["이미지 생성", "아트워크"],
-     "experience": ["초보", "일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "고품질 AI 이미지 생성 플랫폼."},
-    {"name": "DALL·E", "developer": "OpenAI", "purpose": ["이미지 생성", "그래픽 디자인"],
-     "experience": ["초보", "일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "텍스트 기반 고해상도 이미지 생성."},
-    {"name": "Jasper AI", "developer": "Jasper", "purpose": ["마케팅 콘텐츠", "블로그 작성", "광고 문구 생성"],
-     "experience": ["초보", "일반인"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "마케팅 콘텐츠 제작에 특화된 AI."},
-    {"name": "Writesonic", "developer": "Writesonic Inc.", "purpose": ["광고", "블로그", "글쓰기 보조"],
-     "experience": ["초보", "일반인"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "빠르고 쉬운 콘텐츠 생성 AI."},
-    {"name": "GitHub Copilot", "developer": "GitHub / OpenAI", "purpose": ["코딩 보조"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "IDE 통합형 코드 자동 완성 AI."},
-    {"name": "Replit Ghostwriter", "developer": "Replit", "purpose": ["코딩 보조", "실시간 코드 작성"],
-     "experience": ["초보", "일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "코딩 환경 내 실시간 AI 지원."},
-    {"name": "Stable Diffusion", "developer": "Stability AI", "purpose": ["이미지 생성", "아트워크"],
-     "experience": ["일반인", "전문가"], "budget": ["무료", "유료 OK"], "languages": ["영어"],
-     "description": "오픈소스 AI 이미지 생성 모델."},
-    {"name": "HuggingChat", "developer": "Hugging Face", "purpose": ["대화", "연구", "오픈소스 체험"],
-     "experience": ["일반인", "전문가"], "budget": ["무료"], "languages": ["영어"],
-     "description": "오픈소스 기반 대화형 AI."},
-    {"name": "YouChat", "developer": "You.com", "purpose": ["검색", "대화", "정보 탐색"],
-     "experience": ["초보", "일반인"], "budget": ["무료"], "languages": ["영어"],
-     "description": "검색과 AI 대화 기능 결합."},
-    {"name": "OpenAI Whisper", "developer": "OpenAI", "purpose": ["음성 인식", "자동 자막 생성"],
-     "experience": ["일반인", "전문가"], "budget": ["무료", "유료 OK"], "languages": ["영어", "한국어", "다국어"],
-     "description": "강력한 음성 인식 모델."},
-    {"name": "IBM Watson", "developer": "IBM", "purpose": ["비즈니스 AI", "데이터 분석", "대화"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어", "한국어"],
-     "description": "기업용 AI 솔루션."},
-    {"name": "Google Vertex AI", "developer": "Google", "purpose": ["머신러닝 모델 개발", "배포"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "클라우드 기반 ML 플랫폼."},
-    {"name": "Amazon SageMaker", "developer": "Amazon", "purpose": ["머신러닝 모델 개발", "배포"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "AWS 기반 ML 서비스."},
-    {"name": "Cohere", "developer": "Cohere", "purpose": ["텍스트 생성", "분석"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "API 중심 텍스트 생성 서비스."},
-    {"name": "AI21 Studio", "developer": "AI21 Labs", "purpose": ["텍스트 생성", "대화"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "대형 언어 모델 기반 서비스."},
-    {"name": "Mistral", "developer": "Mistral AI", "purpose": ["경량 모델", "빠른 응답"],
-     "experience": ["일반인", "전문가"], "budget": ["무료"], "languages": ["영어"],
-     "description": "빠르고 효율적인 경량 LLM."},
-    {"name": "Runway Gen-2", "developer": "Runway", "purpose": ["비디오 생성", "이미지 변환"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["영어"],
-     "description": "멀티모달 AI 생성 플랫폼."},
-    {"name": "LLaMA 3", "developer": "Meta", "purpose": ["연구", "커스터마이징", "모델 개발"],
-     "experience": ["전문가"], "budget": ["무료"], "languages": ["영어"],
-     "description": "고성능 오픈소스 대형 언어 모델."},
-    {"name": "EleutherAI GPT-NeoX", "developer": "EleutherAI", "purpose": ["오픈소스 연구", "텍스트 생성"],
-     "experience": ["전문가"], "budget": ["무료"], "languages": ["영어"],
-     "description": "오픈소스 대형 언어 모델."},
-    {"name": "DeepL", "developer": "DeepL GmbH", "purpose": ["번역"],
-     "experience": ["초보", "일반인", "전문가"], "budget": ["무료", "유료 OK"], "languages": ["다국어"],
-     "description": "고품질 자동 번역 서비스."},
-    {"name": "Speechmatics", "developer": "Speechmatics", "purpose": ["음성 인식", "자막 생성"],
-     "experience": ["일반인", "전문가"], "budget": ["유료 OK"], "languages": ["다국어"],
-     "description": "다국어 음성 인식 서비스."},
-    {"name": "Synthesia", "developer": "Synthesia", "purpose": ["AI 영상 제작", "가상 아바타"],
-     "experience": ["초보", "일반인"], "budget": ["유료 OK"], "languages": ["영어", "한국어"],
-     "description": "가상 아바타 기반 영상 생성 플랫폼."},
-    {"name": "Runway ML", "developer": "Runway", "purpose": ["이미지/영상 편집", "생성"],
-     "experience": ["초보", "일반인", "전문가"], "budget": ["무료", "유료 OK"], "languages": ["영어"],
-     "description": "크리에이티브 AI 편집 도구."},
-    {"name": "DeepMind Sparrow", "developer": "DeepMind", "purpose": ["안전한 대화", "연구"],
-     "experience": ["전문가"], "budget": ["연구 목적"], "languages": ["영어"],
-     "description": "안전성 강화된 연구용 대화 AI."},
+    {"name":"ChatGPT", "developer":"OpenAI", "purpose":["대화","코딩 보조","문서 생성","Q&A","요약"], "experience":["초보","일반인","전문가"], "budget":["무료","유료 OK"], "languages":["한국어","영어","다국어"], "description":"범용 AI 챗봇."},
+    {"name":"GPT‑4", "developer":"OpenAI", "purpose":["고급 대화","창의적 글쓰기","복잡한 문제 해결"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["한국어","영어","다국어"], "description":"고급 LLM."},
+    {"name":"Claude Opus", "developer":"Anthropic", "purpose":["문서 요약","데이터 분석","코딩 보조"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"코딩/분석 강점 LLM."},
+    {"name":"Claude Sonnet", "developer":"Anthropic", "purpose":["일반형 대화"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"균형형 Claude 모델."},
+    {"name":"Google Gemini 2.5 Pro", "developer":"Google", "purpose":["대화","코딩 보조","정보 검색"], "experience":["초보","일반인","전문가"], "budget":["무료","유료 OK"], "languages":["한국어","영어"], "description":"강력한 멀티모달 AI"},
+
+    {"name":"Grok‑3", "developer":"xAI", "purpose":["대화","수학/과학 추론"], "experience":["일반인","전문가"], "budget":["기업/유료"], "languages":["영어"], "description":"벡터 수학·논리 강점 모델."},
+    {"name":"Bard", "developer":"Google", "purpose":["정보 검색","대화","콘텐츠 생성"], "experience":["초보","일반인","전문가"], "budget":["무료"], "languages":["한국어","영어"], "description":"검색 연동 챗봇."},
+    {"name":"Perplexity AI", "developer":"Perplexity", "purpose":["정보 검색","QA"], "experience":["초보","일반인"], "budget":["무료"], "languages":["영어"], "description":"검색 기반 답변 제공."},
+    {"name":"DeepSeek R1", "developer":"DeepSeek", "purpose":["대화","추론"], "experience":["일반인","전문가"], "budget":["무료"], "languages":["영어"], "description":"비용 효율적인 추론 LLM."},
+    {"name":"Qwen 3", "developer":"Alibaba", "purpose":["대화","멀티모달"], "experience":["일반인","전문가"], "budget":["무료"], "languages":["영어","한국어"], "description":"중국 오픈소스 멀티모달 LLM."},
+
+    {"name":"Copilot", "developer":"GitHub/OpenAI", "purpose":["코딩 보조"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"IDE 코드 자동 완성 AI."},
+    {"name":"Replit Ghostwriter", "developer":"Replit", "purpose":["코딩 보조"], "experience":["초보","일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"코딩 실시간 지원."},
+    {"name":"AlphaEvolve", "developer":"Google DeepMind", "purpose":["코딩 에이전트"], "experience":["전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"고급 코딩 설계 에이전트."},
+    {"name":"DALL·E 3", "developer":"OpenAI", "purpose":["이미지 생성"], "experience":["초보","일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"고해상도 이미지 생성."},
+    {"name":"Midjourney", "developer":"Midjourney Inc.", "purpose":["이미지 생성","아트워크"], "experience":["초보","일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"예술적 이미지 생성."},
+
+    {"name":"Stable Diffusion", "developer":"Stability AI", "purpose":["이미지 생성"], "experience":["일반인","전문가"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"오픈소스 이미지 생성."},
+    {"name":"Runway Gen‑2", "developer":"Runway", "purpose":["비디오 생성"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"텍스트 → 영상 변환."},
+    {"name":"Synthesia", "developer":"Synthesia", "purpose":["영상 제작"], "experience":["초보","일반인"], "budget":["유료 OK"], "languages":["한국어","영어"], "description":"가상 아바타 영상 생성."},
+    {"name":"ElevenLabs", "developer":"ElevenLabs", "purpose":["음성 합성"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"고품질 음성 합성."},
+    {"name":"Whisper", "developer":"OpenAI", "purpose":["음성 인식"], "experience":["일반인","전문가"], "budget":["무료","유료 OK"], "languages":["한국어","영어"], "description":"다국어 음성 인식."},
+
+    {"name":"DeepL", "developer":"DeepL GmbH", "purpose":["번역"], "experience":["초보","일반인","전문가"], "budget":["무료","유료 OK"], "languages":["다국어"], "description":"자연스러운 번역."},
+    {"name":"IBM Watson", "developer":"IBM", "purpose":["비즈니스 AI","데이터 분석"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어","한국어"], "description":"기업용 AI 플랫폼."},
+    {"name":"Amazon SageMaker", "developer":"Amazon", "purpose":["ML 개발"], "experience":["전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"클라우드 ML 서비스."},
+    {"name":"Google Vertex AI", "developer":"Google", "purpose":["ML 개발"], "experience":["전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"클라우드 ML 플랫폼."},
+    {"name":"Cohere", "developer":"Cohere", "purpose":["텍스트 생성"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"API 중심 LLM."},
+
+    {"name":"Jasper", "developer":"Jasper", "purpose":["마케팅 콘텐츠"], "experience":["초보","일반인"], "budget":["유료 OK"], "languages":["영어"], "description":"SEO 마케팅 특화 AI."},
+    {"name":"Writesonic", "developer":"Writesonic", "purpose":["카피라이팅"], "experience":["초보","일반인"], "budget":["유료 OK"], "languages":["영어"], "description":"광고/블로그 생성 AI."},
+    {"name":"Canva Magic Studio", "developer":"Canva", "purpose":["그래픽 디자인"], "experience":["초보","일반인"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"디자인 기반 콘텐츠 생성."},
+    {"name":"HubSpot Email Writer", "developer":"HubSpot", "purpose":["이메일 작성"], "experience":["초보","일반인"], "budget":["유료 OK"], "languages":["영어"], "description":"마케팅 이메일 자동 작성."},
+    {"name":"Gamma", "developer":"Gamma.app", "purpose":["프레젠테이션"], "experience":["초보","일반인"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"자동 프레젠테이션 제작."},
+
+    {"name":"Fathom", "developer":"Fathom", "purpose":["회의 요약"], "experience":["초보","일반인"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"회의 자동 요약."},
+    {"name":"NotebookLM", "developer":"Google", "purpose":["문서 리서치"], "experience":["초보","일반인"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"노트 기반 리서치 도구."},
+    {"name":"Canva Magic Studio", "developer":"Canva", "purpose":["디자인"], "experience":["초보","일반인"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"디자인 콘텐츠 생성."},
+    {"name":"Zapier Agents", "developer":"Zapier", "purpose":["자동화"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"워크플로우 자동화."},
+    {"name":"n8n", "developer":"n8n.io", "purpose":["자동화"], "experience":["일반인","전문가"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"커스터마이징 가능한 자동화."},
+
+    {"name":"Poe", "developer":"Quora", "purpose":["챗봇 플랫폼"], "experience":["초보","일반인"], "budget":["무료"], "languages":["영어"], "description":"다중 모델 챗 플랫폼."},
+    {"name":"DeepAI", "developer":"DeepAI", "purpose":["이미지 생성"], "experience":["초보","일반인"], "budget":["무료"], "languages":["영어"], "description":"오픈소스 이미지 AI."},
+    {"name":"Character.ai", "developer":"Character AI", "purpose":["대화 캐릭터"], "experience":["초보","일반인"], "budget":["무료"], "languages":["영어"], "description":"캐릭터 기반 대화 AI."},
+    {"name":"Suno", "developer":"Suno", "purpose":["음악 생성"], "experience":["일반인","전문가"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"AI 음악 생성."},
+    {"name":"Murf", "developer":"Murf.ai", "purpose":["음성 합성"], "experience":["일반인","전문가"], "budget":["유료 OK"], "languages":["영어"], "description":"나레이션 품질 TTS."},
+
+    {"name":"CapCut AI", "developer":"Bytedance", "purpose":["영상 편집"], "experience":["초보","일반인"], "budget":["무료","유료 OK"], "languages":["영어"], "description":"모바일 기반 AI 영상 편집."},
+    {"name":"Looka", "developer":"Looka", "purpose":["로고 디자인"], "experience":["초보","일반인"], "budget":["유료 OK"], "languages":["영어"], "description":"AI 기반 브랜드 디자인."},
 ]
 
 st.set_page_config(page_title="AI 모델 추천기", layout="wide")
-st.title("🤖 Toolify 스타일 AI 모델 추천기 (경험 선택지: 초보, 일반인, 전문가)")
+st.title("🤖 AI 모델 추천기 (50+ 인기 모델)")
 
-st.markdown("30종 이상의 다양한 AI 모델을 참고하여 목적, 경험, 예산, 지원 언어에 맞게 추천합니다!")
+st.markdown("목적, 경험, 예산, 언어에 맞춰 대중적인 모델 중 적합한 도구를 추천합니다!")
 
 with st.form("user_input"):
-    st.subheader("📝 당신의 상황을 알려주세요")
-
-    purpose = st.multiselect("✅ 사용 목적을 선택하세요", [
-        "대화", "코딩 보조", "문서 생성", "Q&A", "요약", "정보 검색",
-        "마케팅", "광고", "이미지 생성", "아트워크", "노트 작성", "정리", "연구", "번역", "음성 인식", "영상 제작"
+    purpose = st.multiselect("✅ 사용 목적 선택", [
+        "대화","코딩 보조","문서 생성","Q&A","요약","정보 검색","마케팅","광고",
+        "이미지 생성","아트워크","음성 인식","음성 합성","번역","영상 제작",
+        "프레젠테이션","자동화","회의 요약","리서치","음악 생성","로고 디자인"
     ])
-
-    experience = st.radio("🧠 AI 사용 경험은?", ["초보", "일반인", "전문가"])
-    budget = st.radio("💰 예산은?", ["무료", "유료 OK"])
-
-    languages = st.multiselect("🗣️ 지원 언어를 선택하세요", [
-        "한국어", "영어", "다국어"
-    ])
-
-    submitted = st.form_submit_button("🔍 AI 추천받기")
+    experience = st.radio("🧠 경험 수준", ["초보","일반인","전문가"])
+    budget = st.radio("💰 예산", ["무료","유료 OK"])
+    languages = st.multiselect("🗣️ 지원 언어", ["한국어","영어","다국어"])
+    submitted = st.form_submit_button("🔍 추천 받기")
 
 def filter_models(data, purpose, experience, budget, languages):
-    results = []
-    for model in data:
-        if not purpose or not languages:
-            continue
-        if any(p in model["purpose"] for p in purpose) and \
-           experience in model["experience"] and \
-           budget in model["budget"] and \
-           any(l in model["languages"] for l in languages):
-            results.append(model)
-    return results
+    return [
+        m for m in data
+        if purpose and languages
+        and any(p in m["purpose"] for p in purpose)
+        and experience in m["experience"]
+        and budget in m["budget"]
+        and any(l in m["languages"] for l in languages)
+    ]
 
 if submitted:
-    if not purpose:
-        st.warning("❗️ 사용 목적을 최소 하나 이상 선택해주세요.")
-    elif not languages:
-        st.warning("❗️ 지원 언어를 최소 하나 이상 선택해주세요.")
+    if not purpose: st.warning("❗️ 사용 목적을 선택해주세요")
+    elif not languages: st.warning("❗️ 지원 언어를 선택해주세요")
     else:
         matched = filter_models(model_data, purpose, experience, budget, languages)
-        if not matched:
-            st.warning("😢 조건에 맞는 모델을 찾을 수 없습니다. 선택지를 넓혀보세요.")
+        if not matched: st.warning("😢 조건에 맞는 AI 모델을 찾을 수 없습니다.")
         else:
-            st.subheader("📌 추천 결과")
-            for model in matched:
-                with st.container():
-                    st.markdown(f"### 🧠 {model['name']} ({model['developer']})")
-                    st.markdown(f"- 🔍 **설명:** {model['description']}")
-                    st.markdown(f"- 🎯 **주요 목적:** {', '.join(model['purpose'])}")
-                    st.markdown(f"- 🧠 **사용 경험 대상:** {', '.join(model['experience'])}")
-                    st.markdown(f"- 💰 **비용:** {', '.join(model['budget'])}")
-                    st.markdown(f"- 🗣️ **지원 언어:** {', '.join(model['languages'])}")
-                    st.markdown("---")
+            st.subheader("📌 추천 모델")
+            for m in matched:
+                st.markdown(f"### 🧠 {m['name']} ({m['developer']})")
+                st.markdown(f"- {m['description']}")
+                st.markdown(f"- 🎯 용도: {', '.join(m['purpose'])}")
+                st.markdown(f"- 🧠 경험: {', '.join(m['experience'])}")
+                st.markdown(f"- 💰 예산: {', '.join(m['budget'])}")
+                st.markdown(f"- 🗣️ 언어: {', '.join(m['languages'])}")
+                st.markdown("---")
